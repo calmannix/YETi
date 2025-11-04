@@ -1,0 +1,1167 @@
+experiments:
+- id: '1'
+  name: Video title length 5-7 words + hash tags
+  hypothesis: Reducing the length of words in a title will lead to higher subscription
+    growth
+  start_date: '2025-06-10'
+  end_date: '2025-06-25'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - Ozzqwj0-E1Y
+    - jCPhFbh-yxA
+    - KenlZCvLPaY
+    - 1UWB1dCYNm0
+    - tDPgJ9LGKWc
+    - leaOsuE3VeU
+    - 6GhR6De9O4g
+    - V6yUPwuDZak
+    - bKE2Dbt3xL8
+    - iVddEOmKx6Q
+    - KLXyQ3ZARzY
+    - 8OiQ16TqCsE
+    - hlZ_NZtW0gw
+    - S0qvU9tDb30
+    - N8kEoJZgl_c
+    - vMI-3Oj7gXY
+    - PxU7-bViwx4
+    - 5LjSnEjrrPw
+    - HUTSMiAXF04
+    - WznoG8MdGuQ
+    - qUrpS-fulxU
+    - 662_XdSEMxU
+    - RBMW9uGNrO0
+    - UjY3JWTGm8k
+    - oDY1kPQQO04
+    - prL5Jx-mOQY
+    - TjW1aDSDwpk
+    - hA5G7CsLRs4
+    control:
+    - tKi3_TXHLGk
+    - o2eWp1oN_h8
+    - c703bN-9q8Q
+    - z5Ktao-soTY
+    - 0cpOLNvK_qg
+    - kb-z-Mo1pW0
+    - oHcoqa7ke60
+    - 44SqltTzIng
+    - OLD655ndOqU
+    - ORS0xewyWLI
+    - b2mIOyKiWLc
+    - yxEixHBjC_0
+    - gF484txMTFY
+    - MsliR21Si0I
+    - HAizdBIxbk0
+    - i-bQO_vdhnU
+    - vW-PnZjH0hs
+    - YgnzH4_SJb8
+    - ejrmxwOJeMo
+    - LtGFcoU1GO4
+    - 09y16WqSPFs
+    - NJ5mMr0gHqI
+    - fPFE3IMigeU
+    - ZVqDQ4NThO4
+    - UgWdFwJMjHY
+    - tszF-fOiJcA
+    - 5U3Hx4ZAj8k
+    - uELlNi6CThU
+    - 3kb-KlNj2T0
+    - Yil4SDST3Q0
+    - WLQhaMZDbXg
+    - lHir70k4aIU
+    - umVyNUrhIco
+    - zkUutub7y9U
+    - GANzOgEZVjU
+    - NZoqbfsVDM8
+    - kcMZdUZQSb8
+    - nruhSPKf3rU
+    - 2kiVD21FloA
+    - lfTiL0SJiNc
+    - mC6YGkxAPE8
+    - v5MifNtxAzU
+    - KduevkZRAxQ
+    - oVGLLrmgl-A
+    - LBtFpii9A-E
+    - wxzguswX64A
+    - zbB0pFdXmwY
+    - mW1YXjFouIE
+    - hX26XQuEPl4
+    - 3oA4eBYeG10
+    - qGBGARckZXA
+    - 0Q3pj08pwqI
+    - yibMRpTqKO4
+    - n0VEOFCedZ8
+    - oAn4VxGTisw
+    - CYeTex8rvC0
+    - m9sbT9zTC9Y
+    - g2I2JnR3Wdc
+    - LQ1NIP7k-PE
+    - AjZz-3dl6xE
+    - 3NPctNTwIMg
+    - gI0muO87ml8
+    - unJxYfWmvzU
+    - 62AlIgb99z8
+    - gifCjCCvh4w
+    - WB6phekeI5k
+    - 8Hjh9ocli-k
+    - Gq8-h9soJx4
+    - bQN_QAC8GQ4
+    - 0IL7YYvEIT8
+    - Vm0hUk-JvBA
+    - aaoJB1wpXQE
+    - Q8xTIffv6FA
+    - 1E3bjml55yc
+    - kakIqRpvrvM
+    - ELG2c_OEMuo
+    - u00opg8O5tc
+    - x7trle1QYjU
+    - ueb2fn1_VAc
+    - hn1p-IV9rbs
+    - GLvhkXMYk_U
+    - HbdoOzF9kIc
+    - CgPXxlE0JpQ
+    - j0Cky20P9U8
+    - X1Q5eaFt_yE
+    - K6NWvUKOeEI
+    - eoUOo6jL7YA
+    - _lQASm-JujU
+    - zw3AoLiPZVw
+    - 8xe0dD7JWN0
+    - q7WqGdpZEj0
+    - XLUFquA0Opc
+    - abSTPjbbCF8
+    - 6iL1sx8i_xY
+    - NixypmTiD4U
+    - OX2l8Ukiybo
+    - ZyE5GoNSckw
+    - Bw5EShY0HgM
+    - y2pQIf12i_A
+    - -TyfBaYZ2sk
+    - N9rbhbd26i0
+    - HLGTYsyY8Lk
+    - bXr5cPp6Zh8
+    - 32Pn5ZyiCak
+    - Vi9jXwUId4c
+    - _tcvK0aomyY
+    - wk9Zyv9wVWE
+    - 7BWgDm-et1I
+    - dY52hTEH2-w
+    - EnQ1Ny1r0R0
+    - lIjUtFPf8vE
+    - p6rDRTC7W2E
+    - xUdGDmd5aq4
+    - nLQU1v_RPCU
+    - wdjx7QGDzL8
+    - HNhfER9UCEY
+    - zT2pjqlGFV0
+    - NnhtfKm0hMA
+    - du4RKCZpCgo
+    - TKJ3lAzXq5I
+    - ngS7SCxrfWQ
+    - rSWh_FlTA_o
+    - jgc49n0YBEk
+    - H0rcCaTam44
+    - 2gMQeqvg-uM
+    - RKGLOcQCa-I
+    - v-5mrjxR6j0
+    - U9jawpFRv_0
+    - vHVlvicmpHQ
+    - _utRPYD8qAo
+    - dWZ53goXsa8
+    - 69B_TyGHhsI
+    - geF31aRw9DE
+    - SCvkOhACBR4
+    - fFWlVBznde8
+    - QhV7Gp_vb8o
+    - sTuDKEYBs1c
+    - 0pRIYhV5E64
+    - Px1KtoSWsxA
+    - FwPL2MLivWE
+    - cGu7IQBGpq0
+    - xeGgydaA_Cg
+    - ZlHblw701go
+    - sUNDyPsPSss
+    - yaBTspGsGKo
+    - k1mr79oLneo
+    - g_ctxRabVfY
+    - 4lB7B4IEjsY
+    - 9VFNddsEd_M
+    - yk8WAald5KE
+    - QEcTA_xvXBY
+    - gP3SVxo9bA8
+    - 3Z522gfySlA
+    - IiOz8d_pxOc
+    - V-val9BcTWU
+    - x5KWuW6PovQ
+    - gxX-Zs9vgOY
+    - HRrMZV1T9v8
+    - WlnvI5bSYHU
+    - 6uJQWhmPPf4
+    - k2pUk7a9GCI
+    - rK4FV00YtLs
+    - 2Sll_7Ciixc
+  notes: ''
+  results:
+    experiment_id: '1'
+    experiment_name: Video title length 5-7 words + hash tags
+    hypothesis: Reducing the length of words in a title will lead to higher subscription
+      growth
+    analysis_date: '2025-11-04T12:44:19.286849'
+    period:
+      baseline: null
+      experiment: 2025-06-10 to 2025-06-25
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 13.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 10.0
+        control_value: 3.0
+        treatment_vs_control:
+          change: 7.0
+          change_percent: 233.33
+        compound_target: 3.15
+        compound_success: true
+    success: true
+    conclusion: "\u2713 Experiment successful: Reducing the length of words in a title\
+      \ will lead to higher subscription growth \nTreatment: 10.0 subscribersGained\
+      \ vs Control: 3.0 subscribersGained (+233.3% change) \nCompound Target: 3.1\
+      \ subscribersGained (control \xD7 1.0.05) \u2713 Achieved: 10.0 >= 3.1 \nThreshold:\
+      \ 5% increase in subscribersGained"
+  created_at: '2025-10-29T09:30:29.308884'
+- id: '2'
+  name: 2 post a day - 1 new 1 recut
+  hypothesis: Increase the amount of videos to 2 a day, 1 new, the other a re-cut
+    version of a previous video
+  start_date: '2025-06-10'
+  end_date: '2025-07-09'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - G-kqy_8-3x8
+    - ARc4eHgzoj0
+    - iAvxG5xG96E
+    - 7lFWIddbJ68
+    - Ks4cydl-Suw
+    - 6prIMTwHyE4
+    - W4fIIw0NJYA
+    - PE5quFkJWfU
+    - zsPBjS-fR9w
+    - hWBS6-MKejg
+    - pyhJSKYeEtQ
+    - 5QHK7he-fvY
+    - -6Y0p9NBNmM
+    - y8fDAv8TGr0
+    - Nay6vOGqrhQ
+    - e_dsxe4-r_g
+    - Ozzqwj0-E1Y
+    - jCPhFbh-yxA
+    - KenlZCvLPaY
+    - 1UWB1dCYNm0
+    - tDPgJ9LGKWc
+    - leaOsuE3VeU
+    - 6GhR6De9O4g
+    - V6yUPwuDZak
+    - bKE2Dbt3xL8
+    - iVddEOmKx6Q
+    - KLXyQ3ZARzY
+    - 8OiQ16TqCsE
+    - hlZ_NZtW0gw
+    - S0qvU9tDb30
+    - N8kEoJZgl_c
+    - vMI-3Oj7gXY
+    - PxU7-bViwx4
+    - 5LjSnEjrrPw
+    - HUTSMiAXF04
+    - WznoG8MdGuQ
+    - qUrpS-fulxU
+    - 662_XdSEMxU
+    - RBMW9uGNrO0
+    - UjY3JWTGm8k
+    - oDY1kPQQO04
+    - prL5Jx-mOQY
+    - TjW1aDSDwpk
+    - hA5G7CsLRs4
+    control:
+    - tKi3_TXHLGk
+    - o2eWp1oN_h8
+    - c703bN-9q8Q
+    - z5Ktao-soTY
+    - 0cpOLNvK_qg
+    - kb-z-Mo1pW0
+    - oHcoqa7ke60
+    - 44SqltTzIng
+    - OLD655ndOqU
+    - ORS0xewyWLI
+    - b2mIOyKiWLc
+    - yxEixHBjC_0
+    - gF484txMTFY
+    - MsliR21Si0I
+    - HAizdBIxbk0
+    - i-bQO_vdhnU
+    - vW-PnZjH0hs
+    - YgnzH4_SJb8
+    - ejrmxwOJeMo
+    - LtGFcoU1GO4
+    - 09y16WqSPFs
+    - NJ5mMr0gHqI
+    - fPFE3IMigeU
+    - ZVqDQ4NThO4
+    - UgWdFwJMjHY
+    - tszF-fOiJcA
+    - 5U3Hx4ZAj8k
+  notes: ''
+  results:
+    experiment_id: '002'
+    experiment_name: 2 post a day - 1 new 1 recut
+    hypothesis: Increase the amount of videos to 2 a day, 1 new, the other a re-cut
+      version of a previous video
+    analysis_date: '2025-10-29T11:01:05.599702'
+    period:
+      baseline: null
+      experiment: 2025-06-10 to 2025-07-09
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 32.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 26.0
+        control_value: 6.0
+        treatment_vs_control:
+          change: 20.0
+          change_percent: 333.33
+    success: true
+    conclusion: "\u2713 Experiment successful: Increase the amount of videos to 2\
+      \ a day, 1 new, the other a re-cut version of a previous video \nTreatment showed\
+      \ 333.3% increase in subscribersGained vs control. \nTarget was increase of\
+      \ 5% in subscribersGained."
+  created_at: '2025-10-29T10:38:00.575807'
+- id: '3'
+  name: Without hashtags
+  hypothesis: Removing hashtags from the titles will increase subscriptions
+  start_date: '2025-06-25'
+  end_date: '2025-07-09'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - G-kqy_8-3x8
+    - ARc4eHgzoj0
+    - iAvxG5xG96E
+    - 7lFWIddbJ68
+    - Ks4cydl-Suw
+    - 6prIMTwHyE4
+    - W4fIIw0NJYA
+    - PE5quFkJWfU
+    - zsPBjS-fR9w
+    - hWBS6-MKejg
+    - pyhJSKYeEtQ
+    - 5QHK7he-fvY
+    - -6Y0p9NBNmM
+    - y8fDAv8TGr0
+    - Nay6vOGqrhQ
+    - e_dsxe4-r_g
+    - Ozzqwj0-E1Y
+    control:
+    - jCPhFbh-yxA
+    - KenlZCvLPaY
+    - 1UWB1dCYNm0
+    - tDPgJ9LGKWc
+    - leaOsuE3VeU
+    - 6GhR6De9O4g
+    - V6yUPwuDZak
+    - bKE2Dbt3xL8
+    - iVddEOmKx6Q
+    - KLXyQ3ZARzY
+    - 8OiQ16TqCsE
+    - hlZ_NZtW0gw
+    - S0qvU9tDb30
+    - N8kEoJZgl_c
+    - vMI-3Oj7gXY
+    - PxU7-bViwx4
+    - 5LjSnEjrrPw
+    - HUTSMiAXF04
+    - WznoG8MdGuQ
+    - qUrpS-fulxU
+    - 662_XdSEMxU
+    - RBMW9uGNrO0
+    - UjY3JWTGm8k
+    - oDY1kPQQO04
+    - prL5Jx-mOQY
+    - TjW1aDSDwpk
+    - hA5G7CsLRs4
+  notes: ''
+  results:
+    experiment_id: '003'
+    experiment_name: Without hashtags
+    hypothesis: Removing hashtags from the titles will increase subscriptions
+    analysis_date: '2025-10-29T11:01:36.103458'
+    period:
+      baseline: null
+      experiment: 2025-06-25 to 2025-07-09
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 16.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 6.0
+        control_value: 10.0
+        treatment_vs_control:
+          change: -4.0
+          change_percent: -40.0
+    success: false
+    conclusion: "\u2717 Experiment unsuccessful: Removing hashtags from the titles\
+      \ will increase subscriptions \nTreatment showed 40.0% decrease in subscribersGained\
+      \ vs control. \nTarget was increase of 5% in subscribersGained."
+  created_at: '2025-10-29T10:42:04.641226'
+- id: '4'
+  name: Video title, no word limit with hash tags
+  hypothesis: By not limiting the video title but adding in a hash tag will increase
+    subscriptions
+  start_date: '2025-07-09'
+  end_date: '2025-07-24'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - QWq-2OjWPBM
+    - szH4ul7QEPI
+    - 35JkNFh126Q
+    - cs5YAgVxXFY
+    - jRDjXnDsMeg
+    - E-vjWndj3Go
+    - 0NZsLEz8t-E
+    - HtUuYFOMN24
+    - 186KE_00pyc
+    - 4Tjr9gYcNLM
+    - 8la1TQ02uWI
+    - k45ddFIOziQ
+    - TbMXKqVz0-o
+    - OEQ2HyGM6DQ
+    - HbZXoBpTEXU
+    - 63a5I4XP0yw
+    - -0FUo-cB4fo
+    - scXX0ni8FZM
+    - Ui90ACLQ5YY
+    - g8ccaTzlpc0
+    - CtS8aFTapYM
+    - Y4--Jkh0bog
+    - qQaCPV63eLI
+    - Su5bfDbbuXY
+    control:
+    - G-kqy_8-3x8
+    - ARc4eHgzoj0
+    - iAvxG5xG96E
+    - 7lFWIddbJ68
+    - Ks4cydl-Suw
+    - 6prIMTwHyE4
+    - W4fIIw0NJYA
+    - PE5quFkJWfU
+    - zsPBjS-fR9w
+    - hWBS6-MKejg
+    - pyhJSKYeEtQ
+    - 5QHK7he-fvY
+    - -6Y0p9NBNmM
+    - y8fDAv8TGr0
+    - Nay6vOGqrhQ
+    - e_dsxe4-r_g
+    - Ozzqwj0-E1Y
+    - jCPhFbh-yxA
+    - KenlZCvLPaY
+    - 1UWB1dCYNm0
+    - tDPgJ9LGKWc
+  notes: ''
+  results:
+    experiment_id: '004'
+    experiment_name: Video title, no word limit with hash tags
+    hypothesis: By not limiting the video title but adding in a hash tag will increase
+      subscriptions
+    analysis_date: '2025-10-29T11:02:07.534140'
+    period:
+      baseline: null
+      experiment: 2025-07-09 to 2025-07-24
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 13.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 8.0
+        control_value: 5.0
+        treatment_vs_control:
+          change: 3.0
+          change_percent: 60.0
+    success: true
+    conclusion: "\u2713 Experiment successful: By not limiting the video title but\
+      \ adding in a hash tag will increase subscriptions \nTreatment showed 60.0%\
+      \ increase in subscribersGained vs control. \nTarget was increase of 5% in subscribersGained."
+  created_at: '2025-10-29T10:45:23.248243'
+- id: '5'
+  name: More animation, sound effects and offbeat
+  hypothesis: Introduce AI animations and more playful effects will increase subscribers
+  start_date: '2025-07-25'
+  end_date: '2025-08-08'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - UDPohV1V5zY
+    - bpd-NuGFtbM
+    - rxDnEFXU5PY
+    - VLD2NiGmTBk
+    - iJOI6RFwZxc
+    - YlfyK7mzUL8
+    - l5Y0q2T7zB8
+    - b04ijtdp3Cs
+    - 8oFG9W7hEzo
+    - UpH4pCodCKk
+    - OUZUq-QVDqo
+    - dO8G-n-bcDs
+    - 6LUBc2VFNnE
+    - ygOwq_HVe0w
+    - w6jcYHL9I8g
+    - NpFpnEnFY2w
+    - lXP6TqDg668
+    - RB1dE7ffRn0
+    - Qcxwe1hpsPM
+    - wRy2iAWc_Fg
+    - J_OTFX3TZcE
+    - Qc1oGITg8sk
+    - DppMDtIyBw4
+    - uqEhdKT2oFc
+    - TAZduwp9Q7s
+    - C0dpOgtEEdk
+    - fAT57GqsuBo
+    - 6tYemTSruLg
+    control:
+    - QWq-2OjWPBM
+    - szH4ul7QEPI
+    - 35JkNFh126Q
+    - cs5YAgVxXFY
+    - jRDjXnDsMeg
+    - E-vjWndj3Go
+    - 0NZsLEz8t-E
+    - HtUuYFOMN24
+    - 186KE_00pyc
+    - 4Tjr9gYcNLM
+    - 8la1TQ02uWI
+    - k45ddFIOziQ
+    - TbMXKqVz0-o
+    - OEQ2HyGM6DQ
+    - HbZXoBpTEXU
+    - 63a5I4XP0yw
+    - -0FUo-cB4fo
+    - scXX0ni8FZM
+    - Ui90ACLQ5YY
+    - g8ccaTzlpc0
+    - CtS8aFTapYM
+    - Y4--Jkh0bog
+    - qQaCPV63eLI
+    - Su5bfDbbuXY
+  notes: ''
+  results:
+    experiment_id: '5'
+    experiment_name: More animation, sound effects and offbeat
+    hypothesis: Introduce AI animations and more playful effects will increase subscribers
+    analysis_date: '2025-10-29T11:02:37.566515'
+    period:
+      baseline: null
+      experiment: 2025-07-25 to 2025-08-08
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 30.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 11.0
+        control_value: 19.0
+        treatment_vs_control:
+          change: -8.0
+          change_percent: -42.11
+    success: false
+    conclusion: "\u2717 Experiment unsuccessful: Introduce AI animations and more\
+      \ playful effects will increase subscribers \nTreatment showed 42.1% decrease\
+      \ in subscribersGained vs control. \nTarget was increase of 5% in subscribersGained."
+  created_at: '2025-10-29T10:53:28.756358'
+- id: '6'
+  name: 3-6 hashtags in descriptions covering the niche topics in the video
+  hypothesis: 'Adding in more # in the descriptions covering niche or the detail of
+    the topic will increase subscribers'
+  start_date: '2025-08-09'
+  end_date: '2025-08-22'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - DGHtHlI55_Y
+    - 6LziDnCO4vs
+    - 7DOFaA4XiC4
+    - cigUA9CRu84
+    - w3nEf4U9kqk
+    - Z2d93LTdXg0
+    - 73yRsQ9OLos
+    - VkY9IgRTM1c
+    - c0MwsCUcQQs
+    - iAe-tw5SlMM
+    - Ohz0-zPG6h4
+    - DyuLtRsxZNQ
+    - HeieIWgDxRw
+    - fz1ZYwIwMfc
+    - yBrxW9rGbwg
+    - EqtIvkx51GQ
+    - -fa5accydjw
+    - BiIIednfJL4
+    - W8eAbXrqFSY
+    - 5hK0VqvwSOo
+    - 4d952gFnRmA
+    - S_8xqkrdQEQ
+    - 8_R3k29eFqs
+    - hOtlxnmjC-o
+    - U2hxg6k8NBA
+    control:
+    - UDPohV1V5zY
+    - bpd-NuGFtbM
+    - rxDnEFXU5PY
+    - VLD2NiGmTBk
+    - iJOI6RFwZxc
+    - YlfyK7mzUL8
+    - l5Y0q2T7zB8
+    - b04ijtdp3Cs
+    - 8oFG9W7hEzo
+    - UpH4pCodCKk
+    - OUZUq-QVDqo
+    - dO8G-n-bcDs
+    - 6LUBc2VFNnE
+    - ygOwq_HVe0w
+    - w6jcYHL9I8g
+    - NpFpnEnFY2w
+    - lXP6TqDg668
+    - RB1dE7ffRn0
+    - Qcxwe1hpsPM
+    - wRy2iAWc_Fg
+    - J_OTFX3TZcE
+    - Qc1oGITg8sk
+    - DppMDtIyBw4
+    - uqEhdKT2oFc
+    - TAZduwp9Q7s
+    - C0dpOgtEEdk
+  notes: ''
+  results:
+    experiment_id: '6'
+    experiment_name: 3-6 hashtags in descriptions covering the niche topics in the
+      video
+    hypothesis: 'Adding in more # in the descriptions covering niche or the detail
+      of the topic will increase subscribers'
+    analysis_date: '2025-10-29T11:03:00.964237'
+    period:
+      baseline: null
+      experiment: 2025-08-09 to 2025-08-22
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 10.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 7.0
+        control_value: 3.0
+        treatment_vs_control:
+          change: 4.0
+          change_percent: 133.33
+    success: true
+    conclusion: "\u2713 Experiment successful: Adding in more # in the descriptions\
+      \ covering niche or the detail of the topic will increase subscribers \nTreatment\
+      \ showed 133.3% increase in subscribersGained vs control. \nTarget was increase\
+      \ of 5% in subscribersGained."
+  created_at: '2025-10-29T10:55:01.507769'
+- id: '7'
+  name: B-roll enhancement
+  hypothesis: Using new animation workflow / tools, create new more creative b-roll
+    and insert it in to thumbnails will increase subscribers
+  start_date: '2025-08-26'
+  end_date: '2025-09-09'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - cnoQkW2DbhQ
+    - rd1IEeG95io
+    - eEvJG2P5QVY
+    - MMIpkMb86dw
+    - b28PcRrfLKk
+    - AnavSJ1I-RM
+    - lMai2E3bok0
+    - ep0ggB0B0S8
+    - w75CKkQN-wU
+    - PKa0GN7rqcY
+    - ALK0tkuMOPA
+    - ZDm2R8-wGnk
+    - olxmovhvBeA
+    - 1f7-nWxytOA
+    - riT_Ayrvb44
+    - 3Ql6M9Itnk4
+    - 8bNa66ynv4I
+    - TSmvRsqfD7c
+    - x7xLz2t_VrY
+    - oxUo5NxNLJo
+    - MhrbPg3N_Yo
+    - xKaQlJ-0TVY
+    - 7LqRnW2wY4U
+    - Hd_gX_FVSoc
+    - 4jdWALkJsSw
+    - A2NmchHXXKY
+    - 55IXybcCY_I
+    - RHBbCQZqeJU
+    - L1ClmMVWafQ
+    control:
+    - ejfx3ZoUpyc
+    - 5I1SNATPz2Y
+    - 6xvjWfjCI7M
+    - 3BpNRRDy8-Y
+    - DGHtHlI55_Y
+    - 6LziDnCO4vs
+    - 7DOFaA4XiC4
+    - cigUA9CRu84
+    - w3nEf4U9kqk
+    - Z2d93LTdXg0
+    - 73yRsQ9OLos
+    - VkY9IgRTM1c
+    - c0MwsCUcQQs
+    - iAe-tw5SlMM
+    - Ohz0-zPG6h4
+    - DyuLtRsxZNQ
+    - HeieIWgDxRw
+    - fz1ZYwIwMfc
+    - yBrxW9rGbwg
+    - EqtIvkx51GQ
+    - -fa5accydjw
+    - BiIIednfJL4
+    - W8eAbXrqFSY
+    - 5hK0VqvwSOo
+    - 4d952gFnRmA
+  notes: ''
+  results:
+    experiment_id: '7'
+    experiment_name: B-roll enhancement
+    hypothesis: Using new animation workflow / tools, create new more creative b-roll
+      and insert it in to thumbnails will increase subscribers
+    analysis_date: '2025-10-29T11:03:29.332232'
+    period:
+      baseline: null
+      experiment: 2025-08-26 to 2025-09-09
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 24.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 24.0
+        control_value: 0.0
+    success: false
+    conclusion: "\u2717 Experiment unsuccessful: Using new animation workflow / tools,\
+      \ create new more creative b-roll and insert it in to thumbnails will increase\
+      \ subscribers \nTarget was increase of 5% in subscribersGained."
+  created_at: '2025-10-29T10:56:24.904006'
+- id: '8'
+  name: Using older, successful videos, re-publish with a image as the thumbnail
+  hypothesis: Using images as thumbnails will increase subscribers
+  start_date: '2025-08-22'
+  end_date: '2025-09-05'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - w75CKkQN-wU
+    - PKa0GN7rqcY
+    - ALK0tkuMOPA
+    - ZDm2R8-wGnk
+    - olxmovhvBeA
+    - 1f7-nWxytOA
+    - riT_Ayrvb44
+    - 3Ql6M9Itnk4
+    - 8bNa66ynv4I
+    - TSmvRsqfD7c
+    - x7xLz2t_VrY
+    - oxUo5NxNLJo
+    - MhrbPg3N_Yo
+    - xKaQlJ-0TVY
+    - 7LqRnW2wY4U
+    - Hd_gX_FVSoc
+    - 4jdWALkJsSw
+    - A2NmchHXXKY
+    - 55IXybcCY_I
+    - RHBbCQZqeJU
+    - L1ClmMVWafQ
+    - ejfx3ZoUpyc
+    - 5I1SNATPz2Y
+    - 6xvjWfjCI7M
+    - 3BpNRRDy8-Y
+    - DGHtHlI55_Y
+    control:
+    - 6LziDnCO4vs
+    - 7DOFaA4XiC4
+    - cigUA9CRu84
+    - w3nEf4U9kqk
+    - Z2d93LTdXg0
+    - 73yRsQ9OLos
+    - VkY9IgRTM1c
+    - c0MwsCUcQQs
+    - iAe-tw5SlMM
+    - Ohz0-zPG6h4
+    - DyuLtRsxZNQ
+    - HeieIWgDxRw
+    - fz1ZYwIwMfc
+    - yBrxW9rGbwg
+    - EqtIvkx51GQ
+    - -fa5accydjw
+    - BiIIednfJL4
+    - W8eAbXrqFSY
+    - 5hK0VqvwSOo
+    - 4d952gFnRmA
+    - S_8xqkrdQEQ
+    - 8_R3k29eFqs
+    - hOtlxnmjC-o
+    - U2hxg6k8NBA
+    - UDPohV1V5zY
+    - bpd-NuGFtbM
+    - rxDnEFXU5PY
+    - VLD2NiGmTBk
+  notes: ''
+  results:
+    experiment_id: '8'
+    experiment_name: Using older, successful videos, re-publish with a image as the
+      thumbnail
+    hypothesis: Using images as thumbnails will increase subscribers
+    analysis_date: '2025-10-29T11:03:54.211571'
+    period:
+      baseline: null
+      experiment: 2025-08-22 to 2025-09-05
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 25.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 21.0
+        control_value: 4.0
+        treatment_vs_control:
+          change: 17.0
+          change_percent: 425.0
+    success: true
+    conclusion: "\u2713 Experiment successful: Using images as thumbnails will increase\
+      \ subscribers \nTreatment showed 425.0% increase in subscribersGained vs control.\
+      \ \nTarget was increase of 5% in subscribersGained."
+  created_at: '2025-10-29T10:57:47.788189'
+- id: '9'
+  name: Re-edit older, successful videos with AI enhanced b-roll
+  hypothesis: Using enhanced AI b-roll on older successful re-edited videos will increase
+    subscriber
+  start_date: '2025-09-09'
+  end_date: '2025-10-10'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - ONwOIH5FlEg
+    - nUlE0ZlzaLw
+    - vDUmZp1GdtA
+    - OoA-qJmcGxY
+    - 7exgNNGL0-4
+    - M8Zcz2iVbP8
+    - fFIXmnQbxmc
+    - BLJsiOt4wC4
+    - CNKx5h1R-2M
+    - xAYKIZAlMrk
+    - NsLmLqqZjl0
+    - 4hGw0d53Muk
+    - sC__rig5pbI
+    - Rs0t65_dAns
+    - LQb3qnF9KWg
+    - Z5APe4EZXKM
+    - w6RSX6Qqp1Q
+    - w8fAfhbkTks
+    - xkVOw-BlB3k
+    - FFbAcrmr6Sw
+    - R-72bQ7S0ro
+    - CFq5DnFOqLI
+    - Mlwn-Io-c18
+    - PG77WLRnV10
+    - jgf7Wfn1nw4
+    - cnoQkW2DbhQ
+    - rd1IEeG95io
+    control:
+    - eEvJG2P5QVY
+    - MMIpkMb86dw
+    - b28PcRrfLKk
+    - AnavSJ1I-RM
+    - lMai2E3bok0
+    - ep0ggB0B0S8
+    - w75CKkQN-wU
+    - PKa0GN7rqcY
+    - ALK0tkuMOPA
+    - ZDm2R8-wGnk
+    - olxmovhvBeA
+    - 1f7-nWxytOA
+    - riT_Ayrvb44
+    - 3Ql6M9Itnk4
+    - 8bNa66ynv4I
+    - TSmvRsqfD7c
+    - x7xLz2t_VrY
+    - oxUo5NxNLJo
+    - MhrbPg3N_Yo
+    - xKaQlJ-0TVY
+    - 7LqRnW2wY4U
+    - Hd_gX_FVSoc
+    - 4jdWALkJsSw
+    - A2NmchHXXKY
+    - 55IXybcCY_I
+    - RHBbCQZqeJU
+    - L1ClmMVWafQ
+    - ejfx3ZoUpyc
+    - 5I1SNATPz2Y
+    - 6xvjWfjCI7M
+    - 3BpNRRDy8-Y
+    - DGHtHlI55_Y
+    - 6LziDnCO4vs
+    - 7DOFaA4XiC4
+    - cigUA9CRu84
+    - w3nEf4U9kqk
+    - Z2d93LTdXg0
+    - 73yRsQ9OLos
+    - VkY9IgRTM1c
+    - c0MwsCUcQQs
+    - iAe-tw5SlMM
+    - Ohz0-zPG6h4
+    - DyuLtRsxZNQ
+    - HeieIWgDxRw
+    - fz1ZYwIwMfc
+    - yBrxW9rGbwg
+    - EqtIvkx51GQ
+    - -fa5accydjw
+    - BiIIednfJL4
+    - W8eAbXrqFSY
+    - 5hK0VqvwSOo
+    - 4d952gFnRmA
+    - S_8xqkrdQEQ
+    - 8_R3k29eFqs
+    - hOtlxnmjC-o
+    - U2hxg6k8NBA
+    - UDPohV1V5zY
+    - bpd-NuGFtbM
+  notes: ''
+  results:
+    experiment_id: '9'
+    experiment_name: Re-edit older, successful videos with AI enhanced b-roll
+    hypothesis: Using enhanced AI b-roll on older successful re-edited videos will
+      increase subscriber
+    analysis_date: '2025-10-29T11:04:11.451885'
+    period:
+      baseline: null
+      experiment: 2025-09-09 to 2025-10-10
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 26.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 19.0
+        control_value: 7.0
+        treatment_vs_control:
+          change: 12.0
+          change_percent: 171.43
+    success: true
+    conclusion: "\u2713 Experiment successful: Using enhanced AI b-roll on older successful\
+      \ re-edited videos will increase subscriber \nTreatment showed 171.4% increase\
+      \ in subscribersGained vs control. \nTarget was increase of 5% in subscribersGained."
+  created_at: '2025-10-29T10:59:37.170448'
+- id: '10'
+  name: Titles with interrogative words
+  hypothesis: Using titles with leading with interrogative words (Why, How, When etc)
+    will increase subscriber counts
+  start_date: '2025-10-16'
+  end_date: '2025-11-03'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
+    operator: increase
+  status: completed
+  baseline_start: null
+  baseline_end: null
+  video_ids:
+    treatment:
+    - HdcaAfgESjo
+    - Uz7bknQ_rGE
+    - kgldiWpK7NQ
+    - eq8EAEGmHSs
+    - TJS-IpzaK6k
+    - PTFv2m-bFfQ
+    - -fV9VdLSxJM
+    - oumKMAJ2fVY
+    - BfsVfNr4dig
+    control:
+    - ONwOIH5FlEg
+    - nUlE0ZlzaLw
+    - vDUmZp1GdtA
+    - OoA-qJmcGxY
+    - 7exgNNGL0-4
+    - M8Zcz2iVbP8
+    - fFIXmnQbxmc
+    - BLJsiOt4wC4
+    - CNKx5h1R-2M
+    - xAYKIZAlMrk
+    - NsLmLqqZjl0
+    - 4hGw0d53Muk
+    - sC__rig5pbI
+    - Rs0t65_dAns
+    - LQb3qnF9KWg
+    - Z5APe4EZXKM
+    - w6RSX6Qqp1Q
+    - w8fAfhbkTks
+    - xkVOw-BlB3k
+    - FFbAcrmr6Sw
+    - R-72bQ7S0ro
+    - CFq5DnFOqLI
+    - Mlwn-Io-c18
+    - PG77WLRnV10
+    - jgf7Wfn1nw4
+    - cnoQkW2DbhQ
+    - rd1IEeG95io
+  notes: ''
+  results:
+    experiment_id: '10'
+    experiment_name: Titles with interrogative words
+    hypothesis: Using titles with leading with interrogative words (Why, How, When
+      etc) will increase subscriber counts
+    analysis_date: '2025-11-04T13:09:18.404875'
+    period:
+      baseline: null
+      experiment: 2025-10-16 to 2025-11-03
+    metrics:
+      subscribersGained:
+        metric: subscribersGained
+        experiment_value: 16.0
+        baseline_value: null
+        change: null
+        change_percent: null
+        treatment_value: 3.0
+        control_value: 13.0
+        treatment_vs_control:
+          change: -10.0
+          change_percent: -76.92
+        compound_target: 13.65
+        compound_success: false
+    success: false
+    conclusion: "\u2717 Experiment unsuccessful: Using titles with leading with interrogative\
+      \ words (Why, How, When etc) will increase subscriber counts \nTreatment: 3.0\
+      \ subscribersGained vs Control: 13.0 subscribersGained (-76.9% change) \nCompound\
+      \ Target: 13.7 subscribersGained (control \xD7 1.0.05) \u2717 Missed: 3.0 <\
+      \ 13.7 \nThreshold: 5% increase in subscribersGained"
+  created_at: '2025-10-29T11:00:50.052239'
+- id: '11'
+  name: Video length (under 30 seconds vs under 60 seconds)
+  hypothesis: By publishing closer to the target audience time zone, we will increase
+    subscription +20 more than the previous experiment
+  start_date: '2025-11-05'
+  end_date: '2025-11-19'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 20
+    operator: increase
+  status: draft
+  baseline_start: null
+  baseline_end: null
+  video_ids: null
+  notes: ''
+  results: null
+  created_at: '2025-11-04T11:12:05.064764'

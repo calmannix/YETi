@@ -1,0 +1,141 @@
+═══════════════════════════════════════════════════════════════════
+  YOUTUBE API SETUP CHECKLIST - Track Your Progress
+═══════════════════════════════════════════════════════════════════
+
+PHASE 1: GOOGLE CLOUD PROJECT SETUP
+═══════════════════════════════════════════════════════════════════
+□ Open https://console.cloud.google.com/
+□ Sign in with YouTube channel owner account
+□ Create new project "YouTube Experiment Manager"
+□ Wait for project creation to complete
+□ Verify project is selected in dropdown
+
+
+PHASE 2: ENABLE REQUIRED APIs
+═══════════════════════════════════════════════════════════════════
+□ Navigate to: APIs & Services > Library
+□ Search for "YouTube Analytics API"
+□ Click on it and click ENABLE
+□ Wait for confirmation
+□ Go back to API Library
+□ Search for "YouTube Data API v3"
+□ Click on it and click ENABLE
+□ Wait for confirmation
+
+
+PHASE 3: OAUTH CONSENT SCREEN
+═══════════════════════════════════════════════════════════════════
+□ Navigate to: APIs & Services > OAuth consent screen
+□ Select "External" user type
+□ Click CREATE
+
+App Information:
+□ App name: YouTube Experiment Manager
+□ User support email: ___________________________
+□ Developer contact email: ___________________________
+□ Click SAVE AND CONTINUE
+
+Scopes:
+□ Click ADD OR REMOVE SCOPES
+□ Find and check: .../auth/yt-analytics.readonly
+□ Find and check: .../auth/youtube.readonly
+□ Click UPDATE
+□ Click SAVE AND CONTINUE
+
+Test Users:
+□ Click ADD USERS
+□ Add your email: ___________________________
+□ Click ADD
+□ Click SAVE AND CONTINUE
+
+Summary:
+□ Review information
+□ Click BACK TO DASHBOARD
+
+
+PHASE 4: CREATE OAUTH CREDENTIALS
+═══════════════════════════════════════════════════════════════════
+□ Navigate to: APIs & Services > Credentials
+□ Click + CREATE CREDENTIALS
+□ Select "OAuth client ID"
+□ Application type: Desktop app
+□ Name: YouTube Experiment Manager Desktop Client
+□ Click CREATE
+□ Click DOWNLOAD JSON (save the file)
+
+
+PHASE 5: SAVE CREDENTIALS TO PROJECT
+═══════════════════════════════════════════════════════════════════
+□ Locate downloaded file (Downloads folder)
+□ Note filename: client_secret___________________.json
+□ Rename file to: credentials.json
+□ Move to: path/to/YETi/
+□ Verify file is in correct location
+
+
+PHASE 6: FIRST RUN & AUTHORIZATION
+═══════════════════════════════════════════════════════════════════
+□ Open Terminal
+□ cd "path/to/YETi"
+□ source venv/bin/activate
+□ python cli.py list
+□ Wait for browser to open
+
+In Browser:
+□ Sign in with YouTube channel owner account
+□ See warning "Google hasn't verified this app"
+□ Click "Advanced"
+□ Click "Go to YouTube Experiment Manager (unsafe)"
+□ Review permissions
+□ Click "Allow"
+□ See "authentication flow has completed"
+□ Close browser tab
+
+Back in Terminal:
+□ Command completes successfully
+□ See message about experiments (may say "No experiments")
+
+
+PHASE 7: VERIFICATION
+═══════════════════════════════════════════════════════════════════
+□ Check file exists: token.pickle
+□ Run: python check_channel_info.py
+□ See your channel name displayed
+□ Run: python start_server.py
+□ Browser opens to http://localhost:5000
+□ Dashboard loads successfully
+
+
+═══════════════════════════════════════════════════════════════════
+  COMPLETION CHECK
+═══════════════════════════════════════════════════════════════════
+
+Final Verification:
+□ credentials.json exists in project root
+□ token.pickle exists in project root
+□ Dashboard opens and loads
+□ No error messages in terminal
+□ Ready to create experiments!
+
+═══════════════════════════════════════════════════════════════════
+
+SETUP COMPLETE! ✓
+
+Date completed: _______________
+Time taken: _______________ minutes
+
+═══════════════════════════════════════════════════════════════════
+
+TROUBLESHOOTING NOTES:
+(Write any issues you encountered and how you solved them)
+
+_________________________________________________________________
+
+_________________________________________________________________
+
+_________________________________________________________________
+
+_________________________________________________________________
+
+═══════════════════════════════════════════════════════════════════
+
