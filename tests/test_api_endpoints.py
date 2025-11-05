@@ -21,7 +21,7 @@ class TestAPIEndpoints(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.data)
         self.assertEqual(data['status'], 'healthy')
-        self.assertEqual(data['version'], '2.0.0')
+        self.assertEqual(data['version'], '2.1.0')
         self.assertIn('timestamp', data)
     
     def test_home_page(self):

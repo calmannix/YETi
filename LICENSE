@@ -20,3 +20,27 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+---
+
+## Third-Party Dependencies
+
+This project uses various third-party open-source libraries. Each library is used
+under its respective license. For detailed information about third-party licenses,
+please see THIRD_PARTY_LICENSES.md.
+
+Key dependencies and their licenses:
+- Pingouin: BSD-3-Clause License
+- SciPy: BSD-3-Clause License
+- Statsmodels: BSD-3-Clause License
+- NumPy: BSD-3-Clause License
+- Matplotlib: PSF-based License
+- Plotly: MIT License
+- Flask: BSD-3-Clause License
+- Flask-CORS: MIT License
+- Google API Client: Apache License 2.0
+- pandas: BSD-3-Clause License
+- OpenAI: MIT License
+- And others (see THIRD_PARTY_LICENSES.md for complete list)
+
+All third-party licenses are compatible with this project's MIT License.
+

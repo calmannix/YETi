@@ -215,7 +215,7 @@ experiments:
     experiment_name: Video title length 5-7 words + hash tags
     hypothesis: Reducing the length of words in a title will lead to higher subscription
       growth
-    analysis_date: '2025-11-04T12:44:19.286849'
+    analysis_date: '2025-11-05T13:06:59.236394'
     period:
       baseline: null
       experiment: 2025-06-10 to 2025-06-25
@@ -332,11 +332,11 @@ experiments:
     - 5U3Hx4ZAj8k
   notes: ''
   results:
-    experiment_id: '002'
+    experiment_id: '2'
     experiment_name: 2 post a day - 1 new 1 recut
     hypothesis: Increase the amount of videos to 2 a day, 1 new, the other a re-cut
       version of a previous video
-    analysis_date: '2025-10-29T11:01:05.599702'
+    analysis_date: '2025-11-05T13:07:07.503993'
     period:
       baseline: null
       experiment: 2025-06-10 to 2025-07-09
@@ -352,11 +352,14 @@ experiments:
         treatment_vs_control:
           change: 20.0
           change_percent: 333.33
+        compound_target: 6.3
+        compound_success: true
     success: true
     conclusion: "\u2713 Experiment successful: Increase the amount of videos to 2\
-      \ a day, 1 new, the other a re-cut version of a previous video \nTreatment showed\
-      \ 333.3% increase in subscribersGained vs control. \nTarget was increase of\
-      \ 5% in subscribersGained."
+      \ a day, 1 new, the other a re-cut version of a previous video \nTreatment:\
+      \ 26.0 subscribersGained vs Control: 6.0 subscribersGained (+333.3% change)\
+      \ \nCompound Target: 6.3 subscribersGained (control \xD7 1.0.05) \u2713 Achieved:\
+      \ 26.0 >= 6.3 \nThreshold: 5% increase in subscribersGained"
   created_at: '2025-10-29T10:38:00.575807'
 - id: '3'
   name: Without hashtags
@@ -422,10 +425,10 @@ experiments:
     - hA5G7CsLRs4
   notes: ''
   results:
-    experiment_id: '003'
+    experiment_id: '3'
     experiment_name: Without hashtags
     hypothesis: Removing hashtags from the titles will increase subscriptions
-    analysis_date: '2025-10-29T11:01:36.103458'
+    analysis_date: '2025-11-05T13:07:14.623863'
     period:
       baseline: null
       experiment: 2025-06-25 to 2025-07-09
@@ -441,10 +444,14 @@ experiments:
         treatment_vs_control:
           change: -4.0
           change_percent: -40.0
+        compound_target: 10.5
+        compound_success: false
     success: false
     conclusion: "\u2717 Experiment unsuccessful: Removing hashtags from the titles\
-      \ will increase subscriptions \nTreatment showed 40.0% decrease in subscribersGained\
-      \ vs control. \nTarget was increase of 5% in subscribersGained."
+      \ will increase subscriptions \nTreatment: 6.0 subscribersGained vs Control:\
+      \ 10.0 subscribersGained (-40.0% change) \nCompound Target: 10.5 subscribersGained\
+      \ (control \xD7 1.0.05) \u2717 Missed: 6.0 < 10.5 \nThreshold: 5% increase in\
+      \ subscribersGained"
   created_at: '2025-10-29T10:42:04.641226'
 - id: '4'
   name: Video title, no word limit with hash tags
@@ -512,11 +519,11 @@ experiments:
     - tDPgJ9LGKWc
   notes: ''
   results:
-    experiment_id: '004'
+    experiment_id: '4'
     experiment_name: Video title, no word limit with hash tags
     hypothesis: By not limiting the video title but adding in a hash tag will increase
       subscriptions
-    analysis_date: '2025-10-29T11:02:07.534140'
+    analysis_date: '2025-11-05T13:07:23.419837'
     period:
       baseline: null
       experiment: 2025-07-09 to 2025-07-24
@@ -532,10 +539,14 @@ experiments:
         treatment_vs_control:
           change: 3.0
           change_percent: 60.0
+        compound_target: 5.25
+        compound_success: true
     success: true
     conclusion: "\u2713 Experiment successful: By not limiting the video title but\
-      \ adding in a hash tag will increase subscriptions \nTreatment showed 60.0%\
-      \ increase in subscribersGained vs control. \nTarget was increase of 5% in subscribersGained."
+      \ adding in a hash tag will increase subscriptions \nTreatment: 8.0 subscribersGained\
+      \ vs Control: 5.0 subscribersGained (+60.0% change) \nCompound Target: 5.2 subscribersGained\
+      \ (control \xD7 1.0.05) \u2713 Achieved: 8.0 >= 5.2 \nThreshold: 5% increase\
+      \ in subscribersGained"
   created_at: '2025-10-29T10:45:23.248243'
 - id: '5'
   name: More animation, sound effects and offbeat
@@ -710,7 +721,7 @@ experiments:
       video
     hypothesis: 'Adding in more # in the descriptions covering niche or the detail
       of the topic will increase subscribers'
-    analysis_date: '2025-10-29T11:03:00.964237'
+    analysis_date: '2025-11-05T13:07:31.846618'
     period:
       baseline: null
       experiment: 2025-08-09 to 2025-08-22
@@ -726,11 +737,14 @@ experiments:
         treatment_vs_control:
           change: 4.0
           change_percent: 133.33
+        compound_target: 3.15
+        compound_success: true
     success: true
     conclusion: "\u2713 Experiment successful: Adding in more # in the descriptions\
-      \ covering niche or the detail of the topic will increase subscribers \nTreatment\
-      \ showed 133.3% increase in subscribersGained vs control. \nTarget was increase\
-      \ of 5% in subscribersGained."
+      \ covering niche or the detail of the topic will increase subscribers \nTreatment:\
+      \ 7.0 subscribersGained vs Control: 3.0 subscribersGained (+133.3% change) \n\
+      Compound Target: 3.1 subscribersGained (control \xD7 1.0.05) \u2713 Achieved:\
+      \ 7.0 >= 3.1 \nThreshold: 5% increase in subscribersGained"
   created_at: '2025-10-29T10:55:01.507769'
 - id: '7'
   name: B-roll enhancement
@@ -907,7 +921,7 @@ experiments:
     experiment_name: Using older, successful videos, re-publish with a image as the
       thumbnail
     hypothesis: Using images as thumbnails will increase subscribers
-    analysis_date: '2025-10-29T11:03:54.211571'
+    analysis_date: '2025-11-05T13:07:43.356408'
     period:
       baseline: null
       experiment: 2025-08-22 to 2025-09-05
@@ -923,10 +937,13 @@ experiments:
         treatment_vs_control:
           change: 17.0
           change_percent: 425.0
+        compound_target: 4.2
+        compound_success: true
     success: true
     conclusion: "\u2713 Experiment successful: Using images as thumbnails will increase\
-      \ subscribers \nTreatment showed 425.0% increase in subscribersGained vs control.\
-      \ \nTarget was increase of 5% in subscribersGained."
+      \ subscribers \nTreatment: 21.0 subscribersGained vs Control: 4.0 subscribersGained\
+      \ (+425.0% change) \nCompound Target: 4.2 subscribersGained (control \xD7 1.0.05)\
+      \ \u2713 Achieved: 21.0 >= 4.2 \nThreshold: 5% increase in subscribersGained"
   created_at: '2025-10-29T10:57:47.788189'
 - id: '9'
   name: Re-edit older, successful videos with AI enhanced b-roll
@@ -1038,7 +1055,7 @@ experiments:
     experiment_name: Re-edit older, successful videos with AI enhanced b-roll
     hypothesis: Using enhanced AI b-roll on older successful re-edited videos will
       increase subscriber
-    analysis_date: '2025-10-29T11:04:11.451885'
+    analysis_date: '2025-11-05T13:07:49.336269'
     period:
       baseline: null
       experiment: 2025-09-09 to 2025-10-10
@@ -1054,10 +1071,14 @@ experiments:
         treatment_vs_control:
           change: 12.0
           change_percent: 171.43
+        compound_target: 7.35
+        compound_success: true
     success: true
     conclusion: "\u2713 Experiment successful: Using enhanced AI b-roll on older successful\
-      \ re-edited videos will increase subscriber \nTreatment showed 171.4% increase\
-      \ in subscribersGained vs control. \nTarget was increase of 5% in subscribersGained."
+      \ re-edited videos will increase subscriber \nTreatment: 19.0 subscribersGained\
+      \ vs Control: 7.0 subscribersGained (+171.4% change) \nCompound Target: 7.3\
+      \ subscribersGained (control \xD7 1.0.05) \u2713 Achieved: 19.0 >= 7.3 \nThreshold:\
+      \ 5% increase in subscribersGained"
   created_at: '2025-10-29T10:59:37.170448'
 - id: '10'
   name: Titles with interrogative words
@@ -1120,43 +1141,63 @@ experiments:
     experiment_name: Titles with interrogative words
     hypothesis: Using titles with leading with interrogative words (Why, How, When
       etc) will increase subscriber counts
-    analysis_date: '2025-11-04T13:09:18.404875'
+    analysis_date: '2025-11-05T13:11:23.964466'
     period:
       baseline: null
       experiment: 2025-10-16 to 2025-11-03
     metrics:
       subscribersGained:
         metric: subscribersGained
-        experiment_value: 16.0
+        experiment_value: 17.0
         baseline_value: null
         change: null
         change_percent: null
-        treatment_value: 3.0
+        treatment_value: 4.0
         control_value: 13.0
         treatment_vs_control:
-          change: -10.0
-          change_percent: -76.92
+          change: -9.0
+          change_percent: -69.23
         compound_target: 13.65
         compound_success: false
     success: false
     conclusion: "\u2717 Experiment unsuccessful: Using titles with leading with interrogative\
-      \ words (Why, How, When etc) will increase subscriber counts \nTreatment: 3.0\
-      \ subscribersGained vs Control: 13.0 subscribersGained (-76.9% change) \nCompound\
-      \ Target: 13.7 subscribersGained (control \xD7 1.0.05) \u2717 Missed: 3.0 <\
+      \ words (Why, How, When etc) will increase subscriber counts \nTreatment: 4.0\
+      \ subscribersGained vs Control: 13.0 subscribersGained (-69.2% change) \nCompound\
+      \ Target: 13.7 subscribersGained (control \xD7 1.0.05) \u2717 Missed: 4.0 <\
       \ 13.7 \nThreshold: 5% increase in subscribersGained"
   created_at: '2025-10-29T11:00:50.052239'
 - id: '11'
-  name: Video length (under 30 seconds vs under 60 seconds)
-  hypothesis: By publishing closer to the target audience time zone, we will increase
-    subscription +20 more than the previous experiment
+  name: Optimal posting times based on analytics
+  hypothesis: Fine-tuning posting times will increase engagement by 15-25%. We will
+    scheduled to post +8GMT (TPE/HK/SG)
   start_date: '2025-11-05'
-  end_date: '2025-11-19'
+  end_date: '2025-11-20'
   metrics:
     primary: subscribersGained
     secondary: []
   success_criteria:
     metric: subscribersGained
-    threshold: 20
+    threshold: 5
+    operator: increase
+  status: active
+  baseline_start: null
+  baseline_end: null
+  video_ids: null
+  notes: ''
+  results: null
+  created_at: '2025-11-04T14:54:19.221053'
+- id: '12'
+  name: Publish videos on most popular days (M/T/W) for the odd video, publish Sun
+  hypothesis: By publishing on our most popular days according to Youtube analytics,
+    this will increase our views and therefore conversions to subscribers
+  start_date: '2025-11-24'
+  end_date: '2025-12-10'
+  metrics:
+    primary: subscribersGained
+    secondary: []
+  success_criteria:
+    metric: subscribersGained
+    threshold: 5
     operator: increase
   status: draft
   baseline_start: null
@@ -1164,4 +1205,4 @@ experiments:
   video_ids: null
   notes: ''
   results: null
-  created_at: '2025-11-04T11:12:05.064764'
+  created_at: '2025-11-04T15:15:03.916877'

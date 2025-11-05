@@ -1,4 +1,21 @@
-"""Statistical analysis engine for A/B test experiments."""
+"""
+Statistical analysis engine for A/B test experiments.
+
+This module provides comprehensive statistical testing with multiple library support:
+- Pingouin: Advanced statistical functions with robust error handling (preferred)
+- SciPy: Core statistical computations
+- Statsmodels: Specialized proportion tests
+- Custom implementations: Fallback when libraries unavailable
+
+Features:
+- Two-sample t-tests (Welch's t-test)
+- Z-tests for proportions
+- Effect size calculations (Cohen's d, Cohen's h)
+- Statistical power analysis
+- Sample size calculations
+- Comprehensive input validation
+- Robust error handling for edge cases
+"""
 
 import math
 from typing import Dict, List, Tuple, Optional
@@ -20,6 +37,13 @@ try:
 except ImportError:
     STATSMODELS_AVAILABLE = False
     print("Warning: statsmodels not available. Using custom statistical functions. Install with: pip install statsmodels")
+
+try:
+    import pingouin as pg
+    PINGOUIN_AVAILABLE = True
+except ImportError:
+    PINGOUIN_AVAILABLE = False
+    print("Warning: pingouin not available. Using scipy/statsmodels for statistical functions. Install with: pip install pingouin")
 
 
 @dataclass
@@ -57,6 +81,124 @@ class StatisticsEngine:
         self.confidence_level = confidence_level
         self.alpha = 1 - confidence_level
     
+    # Input Validation Methods
+    
+    def _validate_sample_data(
+        self,
+        mean: float,
+        std: float,
+        size: int,
+        param_name: str = "sample"
+    ) -> None:
+        """
+        Validate sample data for t-tests.
+        
+        Args:
+            mean: Sample mean
+            std: Sample standard deviation
+            size: Sample size
+            param_name: Name of parameter for error messages
+        
+        Raises:
+            ValueError: If any parameter is invalid
+        """
+        if not isinstance(size, (int, np.integer)) or size <= 0:
+            raise ValueError(f"{param_name}_size must be a positive integer, got {size}")
+        
+        if std < 0:
+            raise ValueError(f"{param_name}_std must be non-negative, got {std}")
+        
+        if not math.isfinite(mean):
+            raise ValueError(f"{param_name}_mean must be a finite number, got {mean}")
+        
+        if not math.isfinite(std):
+            raise ValueError(f"{param_name}_std must be a finite number, got {std}")
+    
+    def _validate_proportion_data(
+        self,
+        successes: int,
+        total: int,
+        param_name: str = "sample"
+    ) -> None:
+        """
+        Validate proportion data for z-tests.
+        
+        Args:
+            successes: Number of successes
+            total: Total observations
+            param_name: Name of parameter for error messages
+        
+        Raises:
+            ValueError: If any parameter is invalid
+        """
+        if not isinstance(total, (int, np.integer)) or total <= 0:
+            raise ValueError(f"{param_name}_total must be a positive integer, got {total}")
+        
+        if not isinstance(successes, (int, np.integer)) or successes < 0:
+            raise ValueError(f"{param_name}_successes must be a non-negative integer, got {successes}")
+        
+        if successes > total:
+            raise ValueError(
+                f"{param_name}_successes ({successes}) cannot exceed {param_name}_total ({total})"
+            )
+    
+    def _validate_confidence_level(self, confidence_level: float) -> None:
+        """
+        Validate confidence level parameter.
+        
+        Args:
+            confidence_level: Confidence level (e.g., 0.95 for 95%)
+        
+        Raises:
+            ValueError: If confidence level is invalid
+        """
+        if not isinstance(confidence_level, (float, int)):
+            raise ValueError(f"confidence_level must be a number, got {type(confidence_level)}")
+        
+        if not 0 < confidence_level < 1:
+            raise ValueError(f"confidence_level must be between 0 and 1, got {confidence_level}")
+    
+    def _validate_rate(self, rate: float, param_name: str = "rate") -> None:
+        """
+        Validate rate/proportion parameter.
+        
+        Args:
+            rate: Rate or proportion value
+            param_name: Name of parameter for error messages
+        
+        Raises:
+            ValueError: If rate is invalid
+        """
+        if not isinstance(rate, (float, int)):
+            raise ValueError(f"{param_name} must be a number, got {type(rate)}")
+        
+        if not math.isfinite(rate):
+            raise ValueError(f"{param_name} must be a finite number, got {rate}")
+        
+        if not 0 <= rate <= 1:
+            raise ValueError(f"{param_name} must be between 0 and 1, got {rate}")
+    
+    def _validate_numeric(self, value: float, param_name: str, min_value: float = None) -> None:
+        """
+        Validate a numeric parameter.
+        
+        Args:
+            value: Value to validate
+            param_name: Name of parameter for error messages
+            min_value: Optional minimum value
+        
+        Raises:
+            ValueError: If value is invalid
+        """
+        if not isinstance(value, (float, int)):
+            raise ValueError(f"{param_name} must be a number, got {type(value)}")
+        
+        if not math.isfinite(value):
+            raise ValueError(f"{param_name} must be a finite number, got {value}")
+        
+        if min_value is not None and value < min_value:
+            raise ValueError(f"{param_name} must be >= {min_value}, got {value}")
+    
     def t_test_two_sample(
         self,
         sample1_mean: float,
@@ -70,75 +212,144 @@ class StatisticsEngine:
         Perform two-sample t-test (Welch's t-test).
         
         Used for comparing means of continuous metrics like average view duration.
-        Uses scipy.stats when available for more accurate calculations.
+        Uses Pingouin, scipy.stats, or custom calculations with comprehensive error handling.
+        
+        Raises:
+            ValueError: If input parameters are invalid
         """
-        if SCIPY_AVAILABLE and sample1_size > 1 and sample2_size > 1:
-            # Use scipy's ttest_ind_from_stats for accurate Welch's t-test
-            # This handles unequal variances correctly
-            t_stat, p_value = ttest_ind_from_stats(
-                mean1=sample1_mean,
-                std1=sample1_std,
-                nobs1=sample1_size,
-                mean2=sample2_mean,
-                std2=sample2_std,
-                nobs2=sample2_size,
-                equal_var=False  # Welch's t-test (unequal variances)
+        # Validate inputs
+        self._validate_sample_data(sample1_mean, sample1_std, sample1_size, "sample1")
+        self._validate_sample_data(sample2_mean, sample2_std, sample2_size, "sample2")
+        
+        try:
+            # Perform t-test using available libraries
+            if SCIPY_AVAILABLE and sample1_size > 1 and sample2_size > 1:
+                # Use scipy's ttest_ind_from_stats for accurate Welch's t-test
+                # This handles unequal variances correctly
+                t_stat, p_value = ttest_ind_from_stats(
+                    mean1=sample1_mean,
+                    std1=sample1_std,
+                    nobs1=sample1_size,
+                    mean2=sample2_mean,
+                    std2=sample2_std,
+                    nobs2=sample2_size,
+                    equal_var=False  # Welch's t-test (unequal variances)
+                )
+                
+                # Calculate degrees of freedom (Welch-Satterthwaite)
+                df = self._calculate_welch_df(
+                    sample1_std, sample1_size,
+                    sample2_std, sample2_size
+                )
+                test_type = "Two-sample t-test (Welch's - scipy)"
+            else:
+                # Fallback to custom calculation
+                se1 = (sample1_std ** 2) / sample1_size
+                se2 = (sample2_std ** 2) / sample2_size
+                se = math.sqrt(se1 + se2)
+                
+                t_stat = (sample1_mean - sample2_mean) / se if se > 0 else 0
+                df = self._calculate_welch_df(
+                    sample1_std, sample1_size,
+                    sample2_std, sample2_size
+                )
+                p_value = self._t_to_p_value(abs(t_stat), df)
+                test_type = "Two-sample t-test (Welch's)"
+            
+            # Effect size (Cohen's d)
+            # Use Pingouin's compute_effsize if available for more accurate calculation
+            if PINGOUIN_AVAILABLE:
+                try:
+                    # Pingouin's Cohen's d calculation
+                    effect_size = pg.compute_effsize(
+                        sample1_mean, sample2_mean,
+                        sample1_std, sample2_std,
+                        sample1_size, sample2_size,
+                        eftype='cohen'
+                    )
+                    effect_size = abs(effect_size)
+                except Exception:
+                    # Fallback to manual calculation
+                    pooled_std = math.sqrt(
+                        ((sample1_size - 1) * sample1_std**2 + (sample2_size - 1) * sample2_std**2) /
+                        (sample1_size + sample2_size - 2)
+                    )
+                    effect_size = abs(sample1_mean - sample2_mean) / pooled_std if pooled_std > 0 else 0
+            else:
+                # Manual Cohen's d calculation
+                pooled_std = math.sqrt(
+                    ((sample1_size - 1) * sample1_std**2 + (sample2_size - 1) * sample2_std**2) /
+                    (sample1_size + sample2_size - 2)
+                )
+                effect_size = abs(sample1_mean - sample2_mean) / pooled_std if pooled_std > 0 else 0
+            
+            # Statistical power calculation
+            # Use Pingouin's power_ttest if available
+            if PINGOUIN_AVAILABLE and effect_size > 0:
+                try:
+                    power = pg.power_ttest(
+                        d=effect_size,
+                        n=min(sample1_size, sample2_size),
+                        alpha=self.alpha,
+                        alternative='two-sided'
+                    )
+                    power = max(0.0, min(1.0, power))  # Clamp to [0, 1]
+                except Exception:
+                    # Fallback to scipy or custom
+                    if SCIPY_AVAILABLE:
+                        power = self._calculate_power_scipy(effect_size, sample1_size, sample2_size)
+                    else:
+                        power = self._calculate_power(effect_size, sample1_size + sample2_size)
+            elif SCIPY_AVAILABLE:
+                power = self._calculate_power_scipy(effect_size, sample1_size, sample2_size)
+            else:
+                power = self._calculate_power(effect_size, sample1_size + sample2_size)
+            
+            # Sample size needed for 80% power
+            if PINGOUIN_AVAILABLE and effect_size > 0:
+                try:
+                    needed = pg.power_ttest(
+                        d=effect_size,
+                        power=0.80,
+                        alpha=self.alpha,
+                        alternative='two-sided'
+                    )
+                    needed = max(int(math.ceil(needed)), 100)
+                except Exception:
+                    # Fallback to scipy or custom
+                    if SCIPY_AVAILABLE:
+                        needed = self._calculate_sample_size_needed_scipy(effect_size, 0.80, self.alpha)
+                    else:
+                        needed = self._calculate_sample_size_needed(effect_size, 0.80, self.alpha)
+            elif SCIPY_AVAILABLE:
+                needed = self._calculate_sample_size_needed_scipy(effect_size, 0.80, self.alpha)
+            else:
+                needed = self._calculate_sample_size_needed(effect_size, 0.80, self.alpha)
+            
+            is_significant = p_value < self.alpha
+            
+            conclusion = self._generate_conclusion(
+                is_significant, p_value, effect_size,
+                sample1_mean, sample2_mean, "mean"
             )
             
-            # Calculate degrees of freedom (Welch-Satterthwaite)
-            df = self._calculate_welch_df(
-                sample1_std, sample1_size,
-                sample2_std, sample2_size
+            return StatisticalResult(
+                is_significant=is_significant,
+                p_value=p_value,
+                confidence_level=self.confidence_level,
+                effect_size=effect_size,
+                power=power,
+                sample_size_needed=needed,
+                test_type=test_type,
+                conclusion=conclusion
             )
-        else:
-            # Fallback to custom calculation
-            se1 = (sample1_std ** 2) / sample1_size
-            se2 = (sample2_std ** 2) / sample2_size
-            se = math.sqrt(se1 + se2)
-            
-            t_stat = (sample1_mean - sample2_mean) / se if se > 0 else 0
-            df = self._calculate_welch_df(
-                sample1_std, sample1_size,
-                sample2_std, sample2_size
-            )
-            p_value = self._t_to_p_value(abs(t_stat), df)
         
-        # Effect size (Cohen's d)
-        pooled_std = math.sqrt(
-            ((sample1_size - 1) * sample1_std**2 + (sample2_size - 1) * sample2_std**2) /
-            (sample1_size + sample2_size - 2)
-        )
-        effect_size = abs(sample1_mean - sample2_mean) / pooled_std if pooled_std > 0 else 0
-        
-        # Statistical power (using scipy if available)
-        if SCIPY_AVAILABLE:
-            power = self._calculate_power_scipy(effect_size, sample1_size, sample2_size)
-        else:
-            power = self._calculate_power(effect_size, sample1_size + sample2_size)
-        
-        # Sample size needed for 80% power
-        if SCIPY_AVAILABLE:
-            needed = self._calculate_sample_size_needed_scipy(effect_size, 0.80, self.alpha)
-        else:
-            needed = self._calculate_sample_size_needed(effect_size, 0.80, self.alpha)
-        
-        is_significant = p_value < self.alpha
-        
-        conclusion = self._generate_conclusion(
-            is_significant, p_value, effect_size,
-            sample1_mean, sample2_mean, "mean"
-        )
-        
-        return StatisticalResult(
-            is_significant=is_significant,
-            p_value=p_value,
-            confidence_level=self.confidence_level,
-            effect_size=effect_size,
-            power=power,
-            sample_size_needed=needed,
-            test_type="Two-sample t-test (Welch's)" if SCIPY_AVAILABLE else "Two-sample t-test",
-            conclusion=conclusion
-        )
+        except ValueError:
+            # Re-raise validation errors
+            raise
+        except Exception as e:
+            # Catch any other unexpected errors
+            raise RuntimeError(f"Error performing t-test: {str(e)}") from e
     
     def z_test_proportions(
         self,
@@ -151,59 +362,116 @@ class StatisticsEngine:
         Perform z-test for comparing two proportions.
         
         Used for comparing rates like CTR, conversion rate, etc.
-        Uses statsmodels when available for more accurate calculations.
+        Uses Pingouin, statsmodels, or custom calculations with comprehensive error handling.
+        
+        Raises:
+            ValueError: If input parameters are invalid
         """
-        # Calculate proportions
-        p1 = successes1 / total1 if total1 > 0 else 0
-        p2 = successes2 / total2 if total2 > 0 else 0
+        # Validate inputs
+        self._validate_proportion_data(successes1, total1, "sample1")
+        self._validate_proportion_data(successes2, total2, "sample2")
         
-        # Use statsmodels for accurate z-test if available
-        if STATSMODELS_AVAILABLE and total1 > 0 and total2 > 0:
-            count = np.array([successes1, successes2])
-            nobs = np.array([total1, total2])
-            z_stat, p_value = proportions_ztest(count, nobs, alternative='two-sided')
-        else:
-            # Fallback to custom calculation
-            p_pool = (successes1 + successes2) / (total1 + total2) if (total1 + total2) > 0 else 0
-            se = math.sqrt(p_pool * (1 - p_pool) * (1/total1 + 1/total2)) if p_pool > 0 and p_pool < 1 else 0
-            z_stat = (p1 - p2) / se if se > 0 else 0
-            p_value = self._z_to_p_value(abs(z_stat))
+        try:
+            # Calculate proportions
+            p1 = successes1 / total1 if total1 > 0 else 0
+            p2 = successes2 / total2 if total2 > 0 else 0
+            
+            # Perform z-test using available libraries
+            # Try statsmodels first as it's specifically designed for proportion tests
+            if STATSMODELS_AVAILABLE and total1 > 0 and total2 > 0:
+                count = np.array([successes1, successes2])
+                nobs = np.array([total1, total2])
+                z_stat, p_value = proportions_ztest(count, nobs, alternative='two-sided')
+                test_type = "Z-test for proportions (statsmodels)"
+            else:
+                # Fallback to custom calculation
+                p_pool = (successes1 + successes2) / (total1 + total2) if (total1 + total2) > 0 else 0
+                se = math.sqrt(p_pool * (1 - p_pool) * (1/total1 + 1/total2)) if p_pool > 0 and p_pool < 1 else 0
+                z_stat = (p1 - p2) / se if se > 0 else 0
+                p_value = self._z_to_p_value(abs(z_stat))
+                test_type = "Z-test for proportions"
+            
+            # Effect size (Cohen's h)
+            # Pingouin has compute_effsize for proportions as well
+            if PINGOUIN_AVAILABLE:
+                try:
+                    effect_size = pg.compute_effsize(p1, p2, eftype='cohen-h')
+                    effect_size = abs(effect_size)
+                except Exception:
+                    # Fallback to manual calculation
+                    effect_size = self._cohens_h(p1, p2)
+            else:
+                effect_size = self._cohens_h(p1, p2)
+            
+            # Statistical power
+            # Use Pingouin's power_ttest2n for two-sample proportions if available
+            if PINGOUIN_AVAILABLE and effect_size > 0:
+                try:
+                    power = pg.power_ttest2n(
+                        nx=total1,
+                        ny=total2,
+                        d=effect_size,
+                        alpha=self.alpha,
+                        alternative='two-sided'
+                    )
+                    power = max(0.0, min(1.0, power))  # Clamp to [0, 1]
+                except Exception:
+                    # Fallback to scipy or custom
+                    if SCIPY_AVAILABLE:
+                        power = self._calculate_power_scipy(effect_size, total1, total2)
+                    else:
+                        power = self._calculate_power(effect_size, total1 + total2)
+            elif SCIPY_AVAILABLE:
+                power = self._calculate_power_scipy(effect_size, total1, total2)
+            else:
+                power = self._calculate_power(effect_size, total1 + total2)
+            
+            # Sample size needed
+            # Use Pingouin's power functions for sample size if available
+            if PINGOUIN_AVAILABLE and effect_size > 0:
+                try:
+                    needed = pg.power_ttest(
+                        d=effect_size,
+                        power=0.80,
+                        alpha=self.alpha,
+                        alternative='two-sided'
+                    )
+                    needed = max(int(math.ceil(needed)), 100)
+                except Exception:
+                    # Fallback to scipy or custom
+                    if SCIPY_AVAILABLE:
+                        needed = self._calculate_sample_size_needed_scipy(effect_size, 0.80, self.alpha)
+                    else:
+                        needed = self._calculate_sample_size_needed(effect_size, 0.80, self.alpha)
+            elif SCIPY_AVAILABLE:
+                needed = self._calculate_sample_size_needed_scipy(effect_size, 0.80, self.alpha)
+            else:
+                needed = self._calculate_sample_size_needed(effect_size, 0.80, self.alpha)
+            
+            is_significant = p_value < self.alpha
+            
+            conclusion = self._generate_conclusion(
+                is_significant, p_value, effect_size,
+                p1 * 100, p2 * 100, "rate"
+            )
+            
+            return StatisticalResult(
+                is_significant=is_significant,
+                p_value=p_value,
+                confidence_level=self.confidence_level,
+                effect_size=effect_size,
+                power=power,
+                sample_size_needed=needed,
+                test_type=test_type,
+                conclusion=conclusion
+            )
         
-        # Effect size (Cohen's h)
-        effect_size = self._cohens_h(p1, p2)
-        
-        # Statistical power
-        if SCIPY_AVAILABLE:
-            power = self._calculate_power_scipy(effect_size, total1, total2)
-        else:
-            power = self._calculate_power(effect_size, total1 + total2)
-        
-        # Sample size needed
-        if SCIPY_AVAILABLE:
-            needed = self._calculate_sample_size_needed_scipy(effect_size, 0.80, self.alpha)
-        else:
-            needed = self._calculate_sample_size_needed(effect_size, 0.80, self.alpha)
-        
-        is_significant = p_value < self.alpha
-        
-        conclusion = self._generate_conclusion(
-            is_significant, p_value, effect_size,
-            p1 * 100, p2 * 100, "rate"
-        )
-        
-        test_type = "Z-test for proportions (statsmodels)" if STATSMODELS_AVAILABLE else \
-                   ("Z-test for proportions (scipy)" if SCIPY_AVAILABLE else "Z-test for proportions")
-        
-        return StatisticalResult(
-            is_significant=is_significant,
-            p_value=p_value,
-            confidence_level=self.confidence_level,
-            effect_size=effect_size,
-            power=power,
-            sample_size_needed=needed,
-            test_type=test_type,
-            conclusion=conclusion
-        )
+        except ValueError:
+            # Re-raise validation errors
+            raise
+        except Exception as e:
+            # Catch any other unexpected errors
+            raise RuntimeError(f"Error performing z-test: {str(e)}") from e
     
     def calculate_confidence_interval(
         self,
@@ -240,6 +508,8 @@ class StatisticsEngine:
         """
         Calculate minimum sample size needed to detect an effect.
         
+        Uses Pingouin's power functions when available for more accurate calculations.
+        
         Args:
             baseline_rate: Current conversion/success rate (0-1)
             expected_lift: Expected improvement (e.g., 0.15 for 15% lift)
@@ -247,17 +517,58 @@ class StatisticsEngine:
         
         Returns:
             Minimum sample size needed per variant
+        
+        Raises:
+            ValueError: If input parameters are invalid
         """
-        new_rate = baseline_rate * (1 + expected_lift)
-        effect_size = self._cohens_h(baseline_rate, new_rate)
+        # Validate inputs
+        self._validate_rate(baseline_rate, "baseline_rate")
+        self._validate_numeric(expected_lift, "expected_lift", min_value=-1.0)
+        self._validate_rate(power, "power")
         
-        # Simplified sample size calculation
-        z_alpha = self._get_z_critical(self.confidence_level)
-        z_beta = self._get_z_critical(power)
+        try:
+            new_rate = baseline_rate * (1 + expected_lift)
+            
+            # Ensure new_rate is within valid bounds
+            if new_rate < 0 or new_rate > 1:
+                raise ValueError(
+                    f"baseline_rate ({baseline_rate}) * (1 + expected_lift ({expected_lift})) "
+                    f"must result in a rate between 0 and 1, got {new_rate}"
+                )
+            
+            effect_size = self._cohens_h(baseline_rate, new_rate)
+            
+            # Use Pingouin for more accurate sample size calculation
+            if PINGOUIN_AVAILABLE and effect_size > 0:
+                try:
+                    n = pg.power_ttest(
+                        d=effect_size,
+                        power=power,
+                        alpha=self.alpha,
+                        alternative='two-sided'
+                    )
+                    return max(int(math.ceil(n)), 100)  # Minimum 100 per variant
+                except Exception:
+                    # Fallback to custom calculation
+                    pass
+            
+            # Fallback calculation
+            z_alpha = self._get_z_critical(self.confidence_level)
+            z_beta = self._get_z_critical(power)
+            
+            if effect_size > 0:
+                n = ((z_alpha + z_beta) / effect_size) ** 2
+                return max(int(math.ceil(n)), 100)  # Minimum 100 per variant
+            else:
+                # If effect size is 0, we can't detect a difference
+                return 10000  # Large number indicating infeasibility
         
-        n = ((z_alpha + z_beta) / effect_size) ** 2 if effect_size > 0 else float('inf')
-        
-        return max(int(math.ceil(n)), 100)  # Minimum 100 per variant
+        except ValueError:
+            # Re-raise validation errors
+            raise
+        except Exception as e:
+            # Catch any other unexpected errors
+            raise RuntimeError(f"Error calculating sample size: {str(e)}") from e
     
     def analyze_experiment_results(
         self,
@@ -300,14 +611,32 @@ class StatisticsEngine:
         std1: float, n1: int,
         std2: float, n2: int
     ) -> float:
-        """Calculate Welch-Satterthwaite degrees of freedom."""
-        s1_sq_n1 = (std1 ** 2) / n1
-        s2_sq_n2 = (std2 ** 2) / n2
+        """
+        Calculate Welch-Satterthwaite degrees of freedom.
         
-        numerator = (s1_sq_n1 + s2_sq_n2) ** 2
-        denominator = (s1_sq_n1 ** 2) / (n1 - 1) + (s2_sq_n2 ** 2) / (n2 - 1)
+        Includes error handling for edge cases.
+        """
+        # Handle edge cases
+        if n1 <= 1 or n2 <= 1:
+            return 1.0
         
-        return numerator / denominator if denominator > 0 else 1
+        if std1 == 0 and std2 == 0:
+            return float(n1 + n2 - 2)
+        
+        try:
+            s1_sq_n1 = (std1 ** 2) / n1
+            s2_sq_n2 = (std2 ** 2) / n2
+            
+            numerator = (s1_sq_n1 + s2_sq_n2) ** 2
+            denominator = (s1_sq_n1 ** 2) / (n1 - 1) + (s2_sq_n2 ** 2) / (n2 - 1)
+            
+            if denominator > 0 and math.isfinite(numerator) and math.isfinite(denominator):
+                df = numerator / denominator
+                return max(1.0, min(df, float(n1 + n2 - 2)))  # Clamp to reasonable range
+            else:
+                return 1.0
+        except (ZeroDivisionError, OverflowError):
+            return 1.0
     
     def _t_to_p_value(self, t: float, df: float) -> float:
         """Approximate p-value from t-statistic (two-tailed)."""
@@ -339,10 +668,28 @@ class StatisticsEngine:
         return z_table.get(confidence, 1.96)
     
     def _cohens_h(self, p1: float, p2: float) -> float:
-        """Calculate Cohen's h effect size for proportions."""
-        phi1 = 2 * math.asin(math.sqrt(p1))
-        phi2 = 2 * math.asin(math.sqrt(p2))
-        return abs(phi1 - phi2)
+        """
+        Calculate Cohen's h effect size for proportions.
+        
+        Includes error handling for edge cases.
+        """
+        try:
+            # Clamp proportions to [0, 1] to handle floating point errors
+            p1 = max(0.0, min(1.0, p1))
+            p2 = max(0.0, min(1.0, p2))
+            
+            phi1 = 2 * math.asin(math.sqrt(p1))
+            phi2 = 2 * math.asin(math.sqrt(p2))
+            
+            result = abs(phi1 - phi2)
+            
+            # Check for NaN or infinity
+            if not math.isfinite(result):
+                return 0.0
+            
+            return result
+        except (ValueError, OverflowError):
+            return 0.0
     
     def _calculate_power(self, effect_size: float, total_n: int) -> float:
         """Approximate statistical power."""
@@ -426,33 +773,55 @@ class StatisticsEngine:
         value2: float,
         metric_type: str
     ) -> str:
-        """Generate human-readable conclusion."""
-        parts = []
+        """
+        Generate human-readable conclusion.
         
-        if is_significant:
-            parts.append(f"✓ Statistically significant difference detected (p={p_value:.4f}).")
-        else:
-            parts.append(f"✗ No statistically significant difference found (p={p_value:.4f}).")
-        
-        change = ((value1 - value2) / value2 * 100) if value2 != 0 else 0
-        direction = "increase" if change > 0 else "decrease"
-        
-        parts.append(
-            f"Treatment shows {abs(change):.1f}% {direction} "
-            f"({'significant' if is_significant else 'not significant'})."
-        )
-        
-        # Effect size interpretation
-        if effect_size < 0.2:
-            effect_desc = "small"
-        elif effect_size < 0.5:
-            effect_desc = "medium"
-        else:
-            effect_desc = "large"
-        
-        parts.append(f"Effect size: {effect_size:.3f} ({effect_desc}).")
-        
-        return " ".join(parts)
+        Includes error handling for invalid values (NaN, infinity, etc.).
+        """
+        try:
+            parts = []
+            
+            # Handle NaN or infinity in p_value
+            if not math.isfinite(p_value):
+                p_value = 1.0  # Default to no significance
+            
+            if is_significant:
+                parts.append(f"✓ Statistically significant difference detected (p={p_value:.4f}).")
+            else:
+                parts.append(f"✗ No statistically significant difference found (p={p_value:.4f}).")
+            
+            # Calculate change with error handling
+            if value2 != 0 and math.isfinite(value1) and math.isfinite(value2):
+                change = ((value1 - value2) / value2 * 100)
+                if not math.isfinite(change):
+                    change = 0
+            else:
+                change = 0
+            
+            direction = "increase" if change > 0 else "decrease"
+            
+            parts.append(
+                f"Treatment shows {abs(change):.1f}% {direction} "
+                f"({'significant' if is_significant else 'not significant'})."
+            )
+            
+            # Effect size interpretation with error handling
+            if not math.isfinite(effect_size):
+                effect_size = 0.0
+            
+            if effect_size < 0.2:
+                effect_desc = "small"
+            elif effect_size < 0.5:
+                effect_desc = "medium"
+            else:
+                effect_desc = "large"
+            
+            parts.append(f"Effect size: {effect_size:.3f} ({effect_desc}).")
+            
+            return " ".join(parts)
+        except Exception:
+            # Fallback to a basic conclusion if anything goes wrong
+            return "Statistical test completed. Please review raw values for interpretation."
 
 
 def quick_significance_test(
