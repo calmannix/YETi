@@ -19,6 +19,7 @@ from statistics_engine import StatisticsEngine
 from models.variant import VideoVariant, VariantType, VariantManager
 from models.experiment_enhanced import EnhancedExperiment
 from insights_agent import InsightsAgent
+from query_agent import QueryAgent
 
 # Setup Flask with template directory
 template_dir = Path(__file__).parent / 'templates'
@@ -57,7 +58,7 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'timestamp': datetime.now().isoformat(),
-        'version': '2.1.0'
+        'version': '2.2.0'
     })
 
 
@@ -461,6 +462,28 @@ def get_variants(experiment_id):
 def get_ai_insights():
     """Get AI-generated insights from all experiments."""
     try:
+        # Check if force refresh is requested
+        force_refresh = request.args.get('force_refresh', 'false').lower() == 'true'
+        
+        # If not forcing refresh, try to load from cache file first (no API key needed)
+        if not force_refresh:
+            from pathlib import Path
+            cache_file = Path(__file__).parent.parent / 'insights_cache.json'
+            
+            if cache_file.exists():
+                try:
+                    import json
+                    with open(cache_file, 'r') as f:
+                        cached_data = json.load(f)
+                    
+                    # Return cached insights if available
+                    if cached_data and 'insights' in cached_data:
+                        return jsonify(cached_data['insights'])
+                except Exception as e:
+                    print(f"Warning: Could not load cache file: {e}")
+                    # Continue to generate fresh insights
+        
+        # Need to generate fresh insights - requires API key
         # Get all experiments with results
         all_experiments = experiment_manager.list_experiments()
         
@@ -487,9 +510,9 @@ def get_ai_insights():
         except:
             channel_info = None
         
-        # Generate insights using AI
+        # Generate insights using AI (this requires API key)
         insights_agent = InsightsAgent()
-        insights = insights_agent.generate_insights(all_experiments, channel_info)
+        insights = insights_agent.generate_insights(all_experiments, channel_info, force_refresh=force_refresh)
         
         return jsonify(insights)
         
@@ -502,6 +525,46 @@ def get_ai_insights():
         }), 503
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/query', methods=['POST'])
+def natural_language_query():
+    """Process natural language query about YouTube Analytics data."""
+    try:
+        data = request.get_json()
+        
+        if not data or 'question' not in data:
+            return jsonify({
+                'error': 'Missing question parameter',
+                'message': 'Please provide a "question" in the request body'
+            }), 400
+        
+        question = data['question']
+        
+        # Get YouTube API instance
+        yt_api, _ = get_youtube_api()
+        
+        # Initialize query agent
+        query_agent = QueryAgent(yt_api)
+        
+        # Process the query
+        result = query_agent.process_query(question)
+        
+        return jsonify(result)
+        
+    except ValueError as e:
+        # API key not configured
+        return jsonify({
+            'error': 'Query service not configured',
+            'message': str(e),
+            'setup_instructions': 'Add your OPENAI_API_KEY to the .env file'
+        }), 503
+    except Exception as e:
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'message': 'An error occurred while processing your query'
+        }), 500
 
 
 @app.route('/api/statistics/significance', methods=['POST'])

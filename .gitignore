@@ -146,6 +146,9 @@ token.pickle
 # OpenAI API configuration
 .env
 
+# AI Insights cache file
+insights_cache.json
+
 # User-specific exports (optional - uncomment if you want to ignore exports)
 # exports/*.pdf
 # exports/*.csv

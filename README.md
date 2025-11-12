@@ -372,7 +372,7 @@ Built with:
 
 ---
 
-**Version:** 2.1.0  
+**Version:** 2.2.0  
 **Last Updated:** November 2025  
 **Author:** [calmannix](https://github.com/calmannix)
 

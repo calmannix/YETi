@@ -402,6 +402,132 @@
         .confidence-low {
             color: #6c757d;
         }
+        
+        /* Analytics Query Chat Interface */
+        .query-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .query-input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .query-input {
+            flex: 1;
+            padding: 12px 15px;
+            font-size: 1em;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .query-input:focus {
+            border-color: #667eea;
+        }
+        
+        .query-button {
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .query-button:hover {
+            background: #5568d3;
+        }
+        
+        .query-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .query-history {
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 10px 0;
+        }
+        
+        .query-item {
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .query-question {
+            background: #f0f0f0;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .query-question::before {
+            content: "Q: ";
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .query-answer {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            line-height: 1.8;
+        }
+        
+        .query-answer pre {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        .query-error {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+        
+        .query-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .example-query {
+            padding: 8px 12px;
+            background: #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+        
+        .example-query:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .query-loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
     </style>
 </head>
 <body>
@@ -447,6 +573,39 @@
                 <div class="loading">
                     <div class="spinner"></div>
                     <p>Generating AI insights from your experiments...</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Analytics Query Section -->
+        <div class="section">
+            <h2>💬 Ask Analytics</h2>
+            <p style="color: #666; margin-bottom: 20px;">Ask questions about your YouTube data in natural language</p>
+            
+            <div class="query-container">
+                <div class="query-input-area">
+                    <input 
+                        type="text" 
+                        id="query-input" 
+                        class="query-input" 
+                        placeholder="e.g., Which video had the most views in the last 3 months?"
+                        onkeypress="if(event.key === 'Enter') submitQuery()"
+                    />
+                    <button class="query-button" onclick="submitQuery()" id="query-submit-btn">
+                        Ask
+                    </button>
+                </div>
+                
+                <div class="query-examples">
+                    <strong style="width: 100%; display: block; margin-bottom: 5px; color: #666;">Example questions:</strong>
+                    <span class="example-query" onclick="useExampleQuery(this)">Which video had the most views in the last 3 months?</span>
+                    <span class="example-query" onclick="useExampleQuery(this)">Show me total channel views for this year</span>
+                    <span class="example-query" onclick="useExampleQuery(this)">What are my top 5 videos by subscriber gain?</span>
+                    <span class="example-query" onclick="useExampleQuery(this)">How many likes did I get last week?</span>
+                </div>
+                
+                <div id="query-history" class="query-history">
+                    <!-- Query results will appear here -->
                 </div>
             </div>
         </div>
@@ -655,7 +814,7 @@
             loadChannelStats();
             loadDashboard();
             loadExperiments();
-            loadAIInsights();
+            loadCachedInsights();  // Load cached insights without API call
         };
         
         async function checkApiHealth() {
@@ -1023,16 +1182,60 @@
             }
         }
         
-        // AI Insights loading
+        // Load cached insights (fast, on page load)
+        async function loadCachedInsights() {
+            const contentEl = document.getElementById('ai-insights-content');
+            
+            try {
+                // Try to load cached insights without force refresh
+                const response = await fetch(`${API_BASE}/insights/ai-analysis`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    contentEl.innerHTML = `
+                        <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
+                            <strong>⚠️ AI Insights Not Available</strong>
+                            <p>${data.message || 'Please configure your OpenAI API key in the .env file'}</p>
+                            <p style="font-size: 0.9em; color: #666;">Click "Refresh Insights" to generate new insights</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Check if data has a generated_at timestamp
+                if (data.generated_at) {
+                    const generatedDate = new Date(data.generated_at);
+                    const now = new Date();
+                    const ageMinutes = Math.floor((now - generatedDate) / 60000);
+                    
+                    // Add cache indicator
+                    data._cached = true;
+                    data._age_minutes = ageMinutes;
+                }
+                
+                displayAIInsights(data);
+            } catch (error) {
+                contentEl.innerHTML = `
+                    <div style="padding: 20px; background: #f0f0f0; border-radius: 8px;">
+                        <strong>💡 No Cached Insights</strong>
+                        <p>Click "Refresh Insights" to generate AI-powered insights from your experiments.</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // AI Insights loading (with force refresh)
         async function loadAIInsights(forceRefresh = false) {
             const contentEl = document.getElementById('ai-insights-content');
             
-            if (!forceRefresh) {
-                contentEl.innerHTML = '<div class="loading"><div class="spinner"></div><p>Generating AI insights...</p></div>';
-            }
+            // Show loading state
+            contentEl.innerHTML = '<div class="loading"><div class="spinner"></div><p>🔄 Generating fresh AI insights...</p></div>';
             
             try {
-                const response = await fetch(`${API_BASE}/insights/ai-analysis`);
+                const url = forceRefresh 
+                    ? `${API_BASE}/insights/ai-analysis?force_refresh=true`
+                    : `${API_BASE}/insights/ai-analysis`;
+                const response = await fetch(url);
                 const data = await response.json();
                 
                 if (data.error) {
@@ -1062,9 +1265,37 @@
             const contentEl = document.getElementById('ai-insights-content');
             let html = '';
             
+            // Add cache status indicator at the top
+            if (insights._cached && insights.generated_at) {
+                const generatedDate = new Date(insights.generated_at);
+                const ageMinutes = insights._age_minutes || 0;
+                const ageText = ageMinutes < 60 
+                    ? `${ageMinutes} minute${ageMinutes !== 1 ? 's' : ''} ago`
+                    : `${Math.floor(ageMinutes / 60)} hour${Math.floor(ageMinutes / 60) !== 1 ? 's' : ''} ago`;
+                
+                html += `
+                    <div style="padding: 12px 15px; background: #e7f3ff; border-radius: 8px; border-left: 4px solid #667eea; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #555;">
+                            <strong>📋 Showing cached insights</strong>
+                            <span style="margin-left: 10px; font-size: 0.9em; color: #666;">Last updated: ${generatedDate.toLocaleString()} (${ageText})</span>
+                        </span>
+                    </div>
+                `;
+            } else if (insights.generated_at) {
+                const generatedDate = new Date(insights.generated_at);
+                html += `
+                    <div style="padding: 12px 15px; background: #d4edda; border-radius: 8px; border-left: 4px solid #28a745; margin-bottom: 20px;">
+                        <span style="color: #555;">
+                            <strong>✨ Fresh insights generated</strong>
+                            <span style="margin-left: 10px; font-size: 0.9em; color: #666;">Generated: ${generatedDate.toLocaleString()}</span>
+                        </span>
+                    </div>
+                `;
+            }
+            
             // Handle error case
             if (insights.error && insights.raw_response) {
-                html = `
+                html += `
                     <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
                         <strong>⚠️ Failed to Parse AI Response</strong>
                         <p>${insights.message}</p>
@@ -1305,6 +1536,104 @@
             }
             
             contentEl.innerHTML = html;
+        }
+        
+        // Analytics Query Functions
+        async function submitQuery() {
+            const input = document.getElementById('query-input');
+            const question = input.value.trim();
+            
+            if (!question) {
+                return;
+            }
+            
+            const submitBtn = document.getElementById('query-submit-btn');
+            const historyEl = document.getElementById('query-history');
+            
+            // Disable input while processing
+            input.disabled = true;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Thinking...';
+            
+            // Add question to history immediately
+            const queryItem = document.createElement('div');
+            queryItem.className = 'query-item';
+            queryItem.innerHTML = `
+                <div class="query-question">${escapeHtml(question)}</div>
+                <div class="query-loading">
+                    <div class="spinner"></div>
+                    <p>Processing your question...</p>
+                </div>
+            `;
+            historyEl.insertBefore(queryItem, historyEl.firstChild);
+            
+            try {
+                const response = await fetch('/api/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question })
+                });
+                
+                const result = await response.json();
+                
+                // Remove loading indicator
+                const loadingEl = queryItem.querySelector('.query-loading');
+                if (loadingEl) {
+                    loadingEl.remove();
+                }
+                
+                // Add answer
+                const answerDiv = document.createElement('div');
+                
+                if (result.success && result.formatted) {
+                    answerDiv.className = 'query-answer';
+                    // Convert markdown-style formatting to HTML
+                    let formattedText = result.formatted
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n\n/g, '</p><p>')
+                        .replace(/\n/g, '<br>');
+                    answerDiv.innerHTML = '<p>' + formattedText + '</p>';
+                } else {
+                    answerDiv.className = 'query-answer query-error';
+                    answerDiv.innerHTML = `<strong>Error:</strong> ${escapeHtml(result.explanation || result.error || 'Unknown error occurred')}`;
+                }
+                
+                queryItem.appendChild(answerDiv);
+                
+            } catch (error) {
+                // Remove loading indicator
+                const loadingEl = queryItem.querySelector('.query-loading');
+                if (loadingEl) {
+                    loadingEl.remove();
+                }
+                
+                // Add error message
+                const answerDiv = document.createElement('div');
+                answerDiv.className = 'query-answer query-error';
+                answerDiv.innerHTML = `<strong>Error:</strong> Failed to process query. ${escapeHtml(error.message)}`;
+                queryItem.appendChild(answerDiv);
+            } finally {
+                // Re-enable input
+                input.disabled = false;
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Ask';
+                input.value = '';
+                input.focus();
+            }
+        }
+        
+        function useExampleQuery(element) {
+            const input = document.getElementById('query-input');
+            input.value = element.textContent;
+            input.focus();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
     </script>
 </body>

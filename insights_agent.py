@@ -4,6 +4,7 @@ import os
 import json
 from typing import List, Dict, Optional
 from datetime import datetime, timedelta
+from pathlib import Path
 from dotenv import load_dotenv
 from openai import OpenAI
 
@@ -27,25 +28,35 @@ class InsightsAgent:
         self.client = OpenAI(api_key=self.api_key)
         self.cache = {}
         self.cache_duration = int(os.getenv('INSIGHTS_CACHE_DURATION', 3600))
+        self.cache_file = self._get_cache_file_path()
     
-    def generate_insights(self, experiments: List[Experiment], channel_info: Dict = None) -> Dict:
+    def generate_insights(self, experiments: List[Experiment], channel_info: Dict = None, force_refresh: bool = False) -> Dict:
         """
         Generate AI-powered insights from all experiments.
         
         Args:
             experiments: List of experiments with results
             channel_info: Optional channel information (name, niche, subscribers)
+            force_refresh: If True, bypass cache and generate fresh insights
         
         Returns:
             Dictionary with AI-generated insights
         """
-        # Check cache first
         cache_key = f"insights_{len(experiments)}_{self._get_latest_analysis_date(experiments)}"
-        if cache_key in self.cache:
-            cached_time, cached_insights = self.cache[cache_key]
-            if datetime.now() - cached_time < timedelta(seconds=self.cache_duration):
-                print("✓ Using cached insights (to save API costs)")
-                return cached_insights
+        
+        # Check file cache first (unless force refresh)
+        if not force_refresh:
+            file_cache = self._load_cached_insights_from_file()
+            if file_cache and self._is_cache_valid(file_cache, cache_key):
+                print("✓ Using cached insights from file (to save API costs)")
+                return file_cache['insights']
+            
+            # Check in-memory cache
+            if cache_key in self.cache:
+                cached_time, cached_insights = self.cache[cache_key]
+                if datetime.now() - cached_time < timedelta(seconds=self.cache_duration):
+                    print("✓ Using in-memory cached insights (to save API costs)")
+                    return cached_insights
         
         # Prepare data for AI
         experiment_data = self._prepare_experiment_data(experiments, channel_info)
@@ -54,8 +65,11 @@ class InsightsAgent:
         print("🤖 Generating AI insights from your experiments...")
         insights = self._call_openai(experiment_data)
         
-        # Cache results
+        # Cache results in memory
         self.cache[cache_key] = (datetime.now(), insights)
+        
+        # Save to file cache
+        self._save_insights_to_file(cache_key, insights, len(experiments))
         
         return insights
     
@@ -384,4 +398,82 @@ When data is thin, provide direction but mark confidence as low."""
         """Clear the insights cache."""
         self.cache = {}
         print("✓ Insights cache cleared")
+    
+    def _get_cache_file_path(self) -> Path:
+        """Get the path to the cache file."""
+        return Path(__file__).parent / 'insights_cache.json'
+    
+    def _load_cached_insights_from_file(self) -> Optional[Dict]:
+        """
+        Load cached insights from file.
+        
+        Returns:
+            Cached insights dict or None if file doesn't exist or is invalid
+        """
+        try:
+            if not self.cache_file.exists():
+                return None
+            
+            with open(self.cache_file, 'r') as f:
+                cached_data = json.load(f)
+            
+            return cached_data
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"⚠️  Warning: Could not load insights cache file: {e}")
+            return None
+    
+    def _save_insights_to_file(self, cache_key: str, insights: Dict, experiment_count: int):
+        """
+        Save insights to file cache.
+        
+        Args:
+            cache_key: The cache key for validation
+            insights: The insights data to save
+            experiment_count: Number of experiments analyzed
+        """
+        try:
+            cache_data = {
+                'cache_key': cache_key,
+                'generated_at': datetime.now().isoformat(),
+                'experiment_count': experiment_count,
+                'insights': insights
+            }
+            
+            with open(self.cache_file, 'w') as f:
+                json.dump(cache_data, f, indent=2, default=str)
+            
+            print(f"✓ Insights cached to file: {self.cache_file}")
+        except IOError as e:
+            print(f"⚠️  Warning: Could not save insights cache file: {e}")
+            # Continue with in-memory cache only
+    
+    def _is_cache_valid(self, cached_data: Dict, current_cache_key: str) -> bool:
+        """
+        Check if cached insights are still valid.
+        
+        Args:
+            cached_data: The cached data from file
+            current_cache_key: The current cache key to validate against
+        
+        Returns:
+            True if cache is valid, False otherwise
+        """
+        try:
+            # Check if cache key matches
+            if cached_data.get('cache_key') != current_cache_key:
+                print("⚠️  Cache invalid: experiment data changed")
+                return False
+            
+            # Check if cache has expired
+            generated_at = datetime.fromisoformat(cached_data.get('generated_at', ''))
+            age = datetime.now() - generated_at
+            
+            if age > timedelta(seconds=self.cache_duration):
+                print(f"⚠️  Cache expired (age: {age.total_seconds():.0f}s, limit: {self.cache_duration}s)")
+                return False
+            
+            return True
+        except (KeyError, ValueError) as e:
+            print(f"⚠️  Cache validation failed: {e}")
+            return False
 
